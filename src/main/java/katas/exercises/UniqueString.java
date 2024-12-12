@@ -10,7 +10,24 @@ public class UniqueString {
      * @param str the input string
      * @return true if all characters are unique, false otherwise
      */
-    public static boolean isUnique(String str) {
+    public static boolean isUnique(String str)
+    {
+        // Check if the string is null or empty
+        if (str == null || str.isEmpty())
+        {
+            return true;
+        }
+        String lowerCaseString = str.toLowerCase(); //convert the string to lower case
+        HashSet<Character> set = new HashSet<>();
+        for(int i=0;i<lowerCaseString.length();i++)
+        {
+            if (set.contains(lowerCaseString.charAt(i))) //check if the char in the set
+            {
+                return false;
+
+            }
+            set.add(lowerCaseString.charAt(i)); // if the char not in the set we add it
+        }
         return true;
     }
 

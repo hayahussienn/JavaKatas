@@ -9,7 +9,13 @@ public class WordCounter {
      * @return the number of words in the sentence
      */
     public static int countWords(String sentence) {
-        return 0;
+        if (sentence == null || sentence.trim().isEmpty())
+        {
+            return 0; // No words in null or empty string
+        }
+        // Split the sentence by spaces and count number of words
+        String[] words = sentence.trim().split("\\s+");
+        return words.length;
     }
 
     public static void main(String[] args) {
