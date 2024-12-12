@@ -8,8 +8,22 @@ public class StringDigitSum {
      * @param input the string containing digits and other characters
      * @return the sum of all digits in the string
      */
-    public static int sumOfDigits(String input) {
-        return 0;
+    public static int sumOfDigits(String input)
+    {
+        if (input == null || input.isEmpty()) //check if a string null or empty
+        {
+            return 0;
+        }
+        int totalSum = 0;
+        for(int i=0;i<input.length();i++)
+        {
+            char c = input.charAt(i); //check if a char is a digit
+            if (Character.isDigit(c))
+            {
+                totalSum=totalSum+Character.getNumericValue(c); //if the char is a digit add it to total sum
+            }
+        }
+        return totalSum;
     }
 
     public static void main(String[] args) {
