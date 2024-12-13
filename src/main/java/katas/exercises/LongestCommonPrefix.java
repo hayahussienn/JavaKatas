@@ -9,7 +9,21 @@ public class LongestCommonPrefix {
      * @return the longest common prefix, or an empty string if none exists
      */
     public static String longestCommonPrefix(String[] strs) {
-        return "";
+        if (strs == null || strs.length == 0) //check if strs empty or null
+        {
+            return "";
+        }
+        String prefix = strs[0];
+        for (int i = 1; i < strs.length; i++) {
+            while (strs[i].indexOf(prefix) != 0) { // check if prefix matches the beginning of strs[i]
+                prefix = prefix.substring(0, prefix.length() - 1); // shorten the prefix by one character
+                if (prefix.isEmpty())
+                {
+                    return ""; //there is no common prefix
+                }
+            }
+        }
+        return prefix;
     }
 
     public static void main(String[] args) {
