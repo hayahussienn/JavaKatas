@@ -9,14 +9,16 @@ public class TimeMe {
      * @return the execution time in milliseconds
      */
     public static long measureExecutionTime(Runnable func) {
-        //hint:  System.currentTimeMillis();
-        return 0;
+        long startTime = System.currentTimeMillis(); // Record start time
+        func.run();                                  // Execute the function
+        long endTime = System.currentTimeMillis();   // Record end time
+        return endTime - startTime;                  // Calculate elapsed time
     }
 
     public static void main(String[] args) {
         Runnable sampleFunction = () -> {
             try {
-                Thread.sleep(500);
+                Thread.sleep(500); // Simulates a delay
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
