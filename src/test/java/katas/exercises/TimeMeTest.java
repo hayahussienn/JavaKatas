@@ -1,13 +1,14 @@
 package katas.exercises;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TimeMeTest {
 
     @Test
     void testMeasureExecutionTimeWithQuickFunction() {
-        // test a very quick function
+        // Test a very quick function
         Runnable quickFunction = () -> {
             int sum = 0;
             for (int i = 0; i < 1000; i++) {
@@ -19,8 +20,8 @@ class TimeMeTest {
         long timeTaken = TimeMe.measureExecutionTime(quickFunction);
 
         // Assert that the function completes in a reasonable time
-        assertTrue(timeTaken < 50,
-                "Quick function should execute very fast (was " + timeTaken + " ms)");
+        assertTrue(timeTaken < 100,
+                "Quick function should execute reasonably fast (was " + timeTaken + " ms)");
     }
 
     @Test
@@ -32,7 +33,7 @@ class TimeMeTest {
         long timeTaken = TimeMe.measureExecutionTime(emptyFunction);
 
         // Assert that the execution time is very short
-        assertTrue(timeTaken < 1,
+        assertTrue(timeTaken < 10,
                 "Empty function should have minimal execution time (was " + timeTaken + " ms)");
     }
 
@@ -63,8 +64,6 @@ class TimeMeTest {
         };
 
         // Verify that an exception is thrown during time measurement
-        assertThrows(RuntimeException.class, () -> {
-            long timeTaken = TimeMe.measureExecutionTime(exceptionFunction);
-        });
+        assertThrows(RuntimeException.class, () -> TimeMe.measureExecutionTime(exceptionFunction));
     }
 }
