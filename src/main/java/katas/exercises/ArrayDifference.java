@@ -31,7 +31,7 @@ public class ArrayDifference {
 
         }
 
-        return  maxValue-minValue; // Calculate and return the difference between the largest and smallest values in the array
+        return  maxValue-minValue; //  return the difference between the largest and smallest values in the array
     }
 
     public static void main(String[] args) {
