@@ -1,7 +1,9 @@
 package katas.exercises;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TestCaseGrouping {
 
@@ -26,9 +28,41 @@ public class TestCaseGrouping {
      * @return a list of groups, where each group contains the indices of test cases covering the same set of requirements
      */
     public static List<List<Integer>> groupTestCases(List<Integer> testCaseGroupSizes) {
-        return new ArrayList<>();
-    }
+        // Map to store test cases by their group size
+        Map<Integer, List<Integer>> sizeToIndices = new HashMap<>();
+        List<List<Integer>> result = new ArrayList<>();
 
+        // First pass: collect test case indices by their group size
+        for (int i = 0; i < testCaseGroupSizes.size(); i++) {
+            int size = testCaseGroupSizes.get(i);
+            sizeToIndices.computeIfAbsent(size, k -> new ArrayList<>()).add(i);
+        }
+
+        // Second pass: create groups based on the collected indices
+        for (Map.Entry<Integer, List<Integer>> entry : sizeToIndices.entrySet()) {
+            int groupSize = entry.getKey();
+            List<Integer> indices = entry.getValue();
+
+            // Validate that we have enough test cases for each group size
+            if (indices.size() % groupSize != 0) {
+                throw new IllegalArgumentException(
+                        "Invalid input: Number of test cases with size " + groupSize +
+                                " is not divisible by the group size"
+                );
+            }
+
+            // Create groups of the required size
+            for (int i = 0; i < indices.size(); i += groupSize) {
+                List<Integer> group = new ArrayList<>();
+                for (int j = 0; j < groupSize; j++) {
+                    group.add(indices.get(i + j));
+                }
+                result.add(group);
+            }
+        }
+
+        return result;
+    }
     public static void main(String[] args) {
         List<Integer> testCaseGroupSizes1 = List.of(1, 2, 3, 3, 3, 2);
         List<List<Integer>> testCaseGroups1 = groupTestCases(testCaseGroupSizes1);
