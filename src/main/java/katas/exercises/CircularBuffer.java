@@ -1,6 +1,6 @@
 package katas.exercises;
 
-public class CircularBuffer {
+public class  CircularBuffer {
     /**
      * Design a circular buffer (ring buffer).
      *
