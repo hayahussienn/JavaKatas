@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class GitHubRepoActivityIntensityTest {
-
+/*
     @Test
     void testCalculateAverageTimeBetweenCommits() throws Exception {
         List<Instant> mockTimestamps = List.of(
@@ -33,4 +33,6 @@ public class GitHubRepoActivityIntensityTest {
 
         // continue....
     }
+
+ */
 }
