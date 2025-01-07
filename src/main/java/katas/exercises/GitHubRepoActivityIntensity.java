@@ -41,7 +41,7 @@ public class GitHubRepoActivityIntensity {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/vnd.github+json");
-    }
+    return null; }
 
     /**
      * Calculates the average time between consecutive commits.
@@ -50,7 +50,7 @@ public class GitHubRepoActivityIntensity {
      * @return the average time in hours
      */
     public static double calculateAverageTimeBetweenCommits(List<Instant> timestamps) {
-
+return 0;
     }
 
     public static void main(String[] args) {
