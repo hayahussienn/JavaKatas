@@ -20,7 +20,16 @@ public class  CircularBuffer {
      *
      * @param capacity the maximum number of elements the buffer can hold
      */
-    public CircularBuffer(int capacity) {
+    public CircularBuffer(int capacity)
+    {
+        if (capacity <= 0)
+        {
+            throw new IllegalArgumentException("Capacity must be positive");
+        }
+        buffer=new  int[capacity];  // Creates the array with given capacity
+        head=0; // It's like a bookmark that shows where to READ from
+        tail=0; //It's like a pen that shows where to WRITE next
+        size=0; // Buffer starts empty
 
     }
 
@@ -29,8 +38,18 @@ public class  CircularBuffer {
      *
      * @param val the value to add
      */
-    public void add(int val) {
+    public void add(int val)
+    {
+        buffer[tail] = val;  // Write the new value at the tail
+        tail = (tail + 1) % buffer.length; // Move the tail forward in a circular manner
 
+        if (size < buffer.length)
+        {
+            size++; // Increase size if buffer is not yet full
+        } else
+        {
+            head = (head + 1) % buffer.length; // Overwrite the oldest element if full
+        }
     }
 
     /**
@@ -38,9 +57,18 @@ public class  CircularBuffer {
      *
      * @return the oldest element, or -1 if the buffer is empty
      */
-    public int get() {
+    public int get()
+    {
 
-        return -1;
+        if (isEmpty())
+        {
+            return -1;  // if the buffer is empty return -1
+        }
+        int getValue = buffer[head];   // Retrieve the oldest value from the buffer
+        head = (head + 1) % buffer.length;  // Move the head pointer forward in a circular manner
+        size-=1; // Decrease the size of the buffer
+        return  getValue;
+
     }
 
     /**
@@ -48,9 +76,10 @@ public class  CircularBuffer {
      *
      * @return true if the buffer is full, false otherwise
      */
-    public boolean isFull() {
+    public boolean isFull()
+    {
+       return size==buffer.length ;
 
-        return false;
     }
 
     /**
@@ -58,9 +87,10 @@ public class  CircularBuffer {
      *
      * @return true if the buffer is empty, false otherwise
      */
-    public boolean isEmpty() {
+    public boolean isEmpty()
+    {
+        return size==0;
 
-        return false;
     }
 
     public static void main(String[] args) {
