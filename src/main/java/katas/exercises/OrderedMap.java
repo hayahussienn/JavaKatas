@@ -1,72 +1,77 @@
 package katas.exercises;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class OrderedMap<K, V> {
-    /**
-     * Implement an OrderedMap data structure that behaves like a regular map (dictionary) but maintains the
-     * order of the keys based on their insertion order.
-     *
-     * Your task is to implement this class without using the SortedMap interface or similar utilities provided
-     * by Java libraries.
-     *
-     * The order should be preserved as the keys are added to the map.
-     */
+public class OrderedMap<K, V>
+{
+    private final Map<K, V> map;  // Stores key-value pairs
+    private final List<K> orderedKeys;   // Maintains the order of keys based on insertion
 
-    public OrderedMap() {
+
+    // Constructor initializes the map and ordered keys list
+    public OrderedMap()
+    {
+        map = new HashMap<>();
+        orderedKeys = new ArrayList<>();
+    }
+
+
+    // Adds a key-value pair, maintaining insertion order
+    public void put(K key, V value)
+    {
+        if (!map.containsKey(key))
+        {
+            orderedKeys.add(key); // Add to orderedKeys only if key does not exist
+        }
+        map.put(key, value);
 
     }
 
-    public void put(K key, V value) {
-        /**
-         * Add a key-value pair to the map.
-         * If the key already exists, update its value while preserving the order.
-         */
-        throw new UnsupportedOperationException("Not implemented yet.");
+    // Retrieves the value associated with a given key
+    public V get(K key)
+    {
+
+        if (map.containsKey(key))
+        {
+            return map.get(key);
+        }
+        return null;
     }
 
-    public V get(K key) {
-        /**
-         * Retrieve the value associated with a given key.
-         *
-         * @param key: The key whose value is to be retrieved.
-         * @return: The value associated with the key, or null if the key does not exist.
-         */
-        throw new UnsupportedOperationException("Not implemented yet.");
+    // Removes a key-value pair and updates ordered keys
+    public void remove(K key)
+    {
+
+        if (map.containsKey(key))
+        {
+            map.remove(key);
+            orderedKeys.remove(key);
+        }
     }
 
-    public void remove(K key) {
-        /**
-         * Remove a key-value pair from the map.
-         *
-         * @param key: The key to be removed.
-         */
-        throw new UnsupportedOperationException("Not implemented yet.");
+
+    // Returns all keys in the order they were added
+    public List<K> keys()
+    {
+
+        return orderedKeys;
     }
 
-    public List<K> keys() {
-        /**
-         * Return all keys in the order they were added.
-         *
-         * @return: A list of keys in insertion order.
-         */
-        throw new UnsupportedOperationException("Not implemented yet.");
+    // Removes all key-value pairs from the map
+    public int size()
+    {
+
+        return map.size();
     }
 
-    public int size() {
-        /**
-         * Return the number of elements in the map.
-         *
-         * @return: The size of the map.
-         */
-        throw new UnsupportedOperationException("Not implemented yet.");
-    }
-
-    public void clear() {
-        /**
-         * Remove all key-value pairs from the map.
-         */
-        throw new UnsupportedOperationException("Not implemented yet.");
+    //Remove all key-value pairs from the map.
+    public void clear()
+    {
+        map.clear();
+        orderedKeys.clear();
     }
 
     public static void main(String[] args) {
