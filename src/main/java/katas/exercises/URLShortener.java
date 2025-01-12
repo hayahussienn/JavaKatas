@@ -3,7 +3,8 @@ package katas.exercises;
 import java.util.HashMap;
 import java.util.Map;
 
-public class URLShortener {
+public class URLShortener
+{
     /**
      * A URL Shortener is a service that converts a long URL into a shorter, more manageable URL.
      * Implement a simple URL shortener system with the following functionality:
@@ -17,11 +18,16 @@ public class URLShortener {
 
     private Map<String, String> urlMap;
     private static final String BASE_URL = "http://short.ly/";
+    private static final String base62Chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    private static final int BASE = base62Chars.length();
+
+
 
     /**
      * Constructor to initialize the URL shortener system.
      */
-    public URLShortener() {
+    public URLShortener()
+    {
         urlMap = new HashMap<>();
     }
 
@@ -31,9 +37,30 @@ public class URLShortener {
      * @param longUrl the long URL to shorten
      * @return the shortened URL
      */
-    public String shorten(String longUrl) {
-        // Implement logic to shorten the URL
-        return null;
+    public String shorten(String longUrl)
+    {
+        int hashCode = longUrl.hashCode();                // Generate a hash code for the URL
+        String shortUrl = encodeBase62(hashCode);         // Convert the hash code to a base62 string
+        urlMap.put(BASE_URL + shortUrl, longUrl);         // Map the shortened URL to the original URL
+        return BASE_URL + shortUrl;                       // Return the complete shortened URL
+
+
+    }
+
+    private String encodeBase62(int number)
+    {
+
+        StringBuilder encoded = new StringBuilder();
+        long num = number < 0 ? (2L * Integer.MAX_VALUE) + number + 2 : number; // Handle negative hash codes
+
+        while (num > 0)
+        {
+            int remainder = (int) (num % BASE);               // Get the remainder for base62 conversion
+            encoded.append(base62Chars.charAt(remainder));    // Append the corresponding base62 character
+            num /= BASE;                                      // Divide the number by BASE for next iteration
+        }
+        return encoded.reverse().toString();                 // Reverse the string to get the final base62 result
+
     }
 
     /**
@@ -42,7 +69,8 @@ public class URLShortener {
      * @param shortUrl the shortened URL
      * @return the original long URL
      */
-    public String retrieve(String shortUrl) {
+    public String retrieve(String shortUrl)
+    {
         return urlMap.get(shortUrl); // Implement logic to retrieve long URL
     }
 
@@ -56,4 +84,3 @@ public class URLShortener {
         System.out.println("Original URL: " + shortener.retrieve(shortUrl));
     }
 }
-
