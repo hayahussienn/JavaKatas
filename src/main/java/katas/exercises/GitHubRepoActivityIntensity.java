@@ -35,13 +35,15 @@ public class GitHubRepoActivityIntensity {
      * @return a list of commit timestamps as Instant objects
      * @throws Exception if there is an error fetching or parsing the data
      */
-    public static List<Instant> fetchCommitTimestamps(String owner, String repo) throws Exception {
+    public static List<Instant> fetchCommitTimestamps(String owner, String repo) throws Exception
+    {
         // example:
         URL url = new URL("...");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/vnd.github+json");
-        return null; }
+        return null;
+    }
 
     /**
      * Calculates the average time between consecutive commits.
@@ -49,8 +51,9 @@ public class GitHubRepoActivityIntensity {
      * @param timestamps a list of commit timestamps
      * @return the average time in hours
      */
-    public static double calculateAverageTimeBetweenCommits(List<Instant> timestamps) {
-        return 0;
+    public static double calculateAverageTimeBetweenCommits(List<Instant> timestamps)
+    {
+     return 0;
     }
 
     public static void main(String[] args) {
