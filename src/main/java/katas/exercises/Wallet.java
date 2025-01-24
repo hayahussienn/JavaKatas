@@ -16,6 +16,7 @@ import java.util.List;
  * Use the Mockito package (https://site.mockito.org/) to test your wallet implementation without performing a real HTTP requests to the API
  * during test execution.
  */
+
 public class Wallet {
 
     private final List<Stock> stocks;
