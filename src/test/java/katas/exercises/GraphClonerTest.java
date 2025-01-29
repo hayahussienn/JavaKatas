@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static katas.exercises.GraphCloner.cloneGraph;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class cloneGraphTest {
+public class GraphClonerTest {
 
     @Test
     void testCloneEmptyGraph() {
