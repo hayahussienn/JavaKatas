@@ -1,5 +1,8 @@
 package katas.exercises;
 
+import java.util.Collections;
+import java.util.PriorityQueue;
+
 /**
  * find the median of a stream of integers.
  *
@@ -13,11 +16,16 @@ package katas.exercises;
  */
 public class MedianFinder {
 
+    PriorityQueue<Integer> minHeap ;
+    PriorityQueue<Integer> maxHeap ;
+
     /**
      * Initializes the MedianFinder object.
      */
     public MedianFinder() {
-
+        // Max heap stores the smaller half, min heap stores the larger half
+       minHeap = new PriorityQueue<>();
+       maxHeap = new PriorityQueue<>(Collections.reverseOrder());
     }
 
     /**
@@ -26,6 +34,22 @@ public class MedianFinder {
      * @param num the number to be added
      */
     public void addNum(int num) {
+        // Insert into the correct heap
+        if (maxHeap.isEmpty() || num<=maxHeap.peek())
+        {
+            maxHeap.add(num);
+        }
+        else
+        {
+            minHeap.add(num);
+        }
+
+        // Balance the heaps to ensure maxHeap is at most 1 larger than minHeap
+        if (maxHeap.size() > minHeap.size() + 1) {
+            minHeap.add(maxHeap.poll());
+        } else if (minHeap.size() > maxHeap.size()) {
+            maxHeap.add(minHeap.poll());
+        }
 
     }
 
@@ -35,8 +59,21 @@ public class MedianFinder {
      * @return the median as a double
      */
     public double findMedian() {
+        if(minHeap.isEmpty() && maxHeap.isEmpty()) //check if the heaps are empty
+        {
+            return 0;
+        }
+        if (maxHeap.size()>minHeap.size())
+        {
+            return maxHeap.peek();  // Odd number of elements
+        }
+        else
+        {
+            int firstMiddleVal=minHeap.peek();
+            int secondMiddleVal=maxHeap.peek();
+            return (firstMiddleVal + secondMiddleVal) / 2.0; // Even number of elements
+        }
 
-        return 0.0;
     }
 
     public static void main(String[] args) {
