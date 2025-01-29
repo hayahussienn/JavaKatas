@@ -14,8 +14,6 @@ import java.util.*;
  */
 class GraphCloner {
 
-
-
     /**
      * Clones a directed graph.
      *
@@ -23,7 +21,24 @@ class GraphCloner {
      * @return the starting node of the cloned graph
      */
     public static Node cloneGraph(Node node) {
-        return null;
+        if (node == null) return null;
+
+        Map<Node, Node> hashmap = new HashMap<>();          // HashMap to store original -> cloned mapping
+        return cloneGraphRecursive(node, hashmap);
+    }
+
+    private static Node cloneGraphRecursive(Node node, Map<Node, Node> hashmap) {
+        if (hashmap.containsKey(node)) {
+            return hashmap.get(node); // Return already cloned node to handle cycles
+        }
+
+        Node clonedNode = new Node(node.val);         // Clone the current node
+        hashmap.put(node, clonedNode);               // Store in hashmap before recursion to prevent cycles
+
+        for (Node neighbor : node.neighbors) {        // Recursively clone neighbors
+            clonedNode.neighbors.add(cloneGraphRecursive(neighbor, hashmap));
+        }
+        return clonedNode;
     }
 
     public static void main(String[] args) {
