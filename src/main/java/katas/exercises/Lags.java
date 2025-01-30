@@ -1,6 +1,8 @@
 package katas.exercises;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -37,6 +39,10 @@ public class Lags {
             this.duration = duration;
             this.payment = payment;
         }
+        //return the end time of the request
+        public int getEndTime() {
+            return startTime + duration;
+        }
     }
 
     /**
@@ -46,7 +52,46 @@ public class Lags {
      * @return the maximum profit
      */
     public static int maximizeProfit(List<Request> requests) {
-        return 0;
+        int n = requests.size();
+        Collections.sort(requests, Comparator.comparingInt(Request::getEndTime)); // Step 1: Sort requests by end time
+
+        ArrayList<Integer> endTimes = new ArrayList<>();           // Step 2: Compute end times after sorting
+        for (Request request : requests) {
+            endTimes.add(request.getEndTime());
+        }
+
+        int[] dp = new int[n];              // Step 3: DP Array
+        dp[0] = requests.get(0).payment;            // Base Case
+
+        // Step 4: Fill DP table
+        for (int i = 1; i < n; i++) {
+            int lastIndex = findLastNonOverlapping(endTimes, requests.get(i).startTime);
+
+            int includeProfit = requests.get(i).payment + (lastIndex == -1 ? 0 : dp[lastIndex]);
+            int excludeProfit = dp[i - 1]; // Skipping current request
+
+            dp[i] = Math.max(includeProfit, excludeProfit);
+        }
+
+        return dp[n - 1];          // Step 5: Return the maximum profit from the last entry
+    }
+
+    private static int findLastNonOverlapping(List<Integer> endTimes, int startTime) {
+        int left = 0, right = endTimes.size() - 1;
+        int result = -1;
+        //binary search
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (endTimes.get(mid) <= startTime) {
+                result = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return result;
     }
 
     public static void main(String[] args) {
