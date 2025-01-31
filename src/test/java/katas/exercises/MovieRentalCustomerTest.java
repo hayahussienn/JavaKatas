@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MovieRentalCustomerTest {
 
     @Test
-    public void testOriginalStatementMethod() {
+    public void testStatementTextFormat() {
         MovieRentalCustomer customer = new MovieRentalCustomer("Bob");
         customer.addRental(new Rental(new Movie("Jaws", Movie.REGULAR), 2));
         customer.addRental(new Rental(new Movie("Golden Eye", Movie.REGULAR), 3));
@@ -32,7 +32,7 @@ public class MovieRentalCustomerTest {
         assertEquals(expected, customer.statement());
     }
     @Test
-    public void testHtmlStatement() {
+    public void testStatementHtmlFormat() {
         MovieRentalCustomer customer = new MovieRentalCustomer("Bob");
         customer.addRental(new Rental(new Movie("Jaws", Movie.REGULAR), 2));
         customer.addRental(new Rental(new Movie("Golden Eye", Movie.REGULAR), 3));
@@ -52,7 +52,7 @@ public class MovieRentalCustomerTest {
     }
 
     @Test
-    public void testChildrenMoviePricing() {
+    public void testChildrenMovie() {
         MovieRentalCustomer customer = new MovieRentalCustomer("Martin");
 
         // Base price for children's movie
@@ -69,7 +69,7 @@ public class MovieRentalCustomerTest {
     }
 
     @Test
-    public void testRegularMoviePricing() {
+    public void testRegularMovie() {
         MovieRentalCustomer customer = new MovieRentalCustomer("John");
         Movie movie = new Movie("Matrix", Movie.REGULAR);
 
@@ -84,7 +84,7 @@ public class MovieRentalCustomerTest {
     }
 
     @Test
-    public void testNewReleaseMoviePricing() {
+    public void testNewReleaseMovie() {
         MovieRentalCustomer customer = new MovieRentalCustomer("John");
         Movie movie = new Movie("Avengers", Movie.NEW_RELEASE);
 
@@ -99,7 +99,7 @@ public class MovieRentalCustomerTest {
     }
 
     @Test
-    public void testMixedMovieTypesTotal() {
+    public void testMixedMovieTypes() {
         MovieRentalCustomer customer = new MovieRentalCustomer("Martin");
         Movie regular = new Movie("Matrix", Movie.REGULAR);
         Movie newRelease = new Movie("Dune", Movie.NEW_RELEASE);
@@ -115,13 +115,26 @@ public class MovieRentalCustomerTest {
     }
 
     @Test
-    public void testEmptyRentalList() {
+    public void testEmptyRental() {
         MovieRentalCustomer customer = new MovieRentalCustomer("Martin");
 
         String statement = customer.htmlStatement();
         assertTrue(statement.contains("<table></table>"));
         assertTrue(statement.contains("Amount owed is <em>0.0</em>"));
         assertTrue(statement.contains("earned <em>0</em> frequent"));
+    }
+
+    @Test
+    public void testDuplicateMovieRentals() {
+        MovieRentalCustomer customer = new MovieRentalCustomer("John");
+        Movie movie = new Movie("Matrix", Movie.REGULAR);
+
+        customer.addRental(new Rental(movie, 2));
+        customer.addRental(new Rental(movie, 3));
+
+        String statement = customer.htmlStatement() ;
+        assertTrue(statement.contains("Amount owed is <em>5.5</em>")); // 2.0 + 3.5
+        assertTrue(statement.contains("earned <em>2</em> frequent"));
     }
 
     @Test
@@ -181,16 +194,5 @@ public class MovieRentalCustomerTest {
         assertTrue(statement.contains("earned <em>2</em> frequent"));
     }
 
-    @Test
-    public void testMultipleRentalsOfSameMovie() {
-        MovieRentalCustomer customer = new MovieRentalCustomer("John");
-        Movie movie = new Movie("Matrix", Movie.REGULAR);
 
-        customer.addRental(new Rental(movie, 2));
-        customer.addRental(new Rental(movie, 3));
-
-        String statement = customer.htmlStatement() ;
-        assertTrue(statement.contains("Amount owed is <em>5.5</em>")); // 2.0 + 3.5
-        assertTrue(statement.contains("earned <em>2</em> frequent"));
-    }
 }

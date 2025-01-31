@@ -62,23 +62,22 @@ public class MovieRentalCustomer {
     }
 
     private int getFrequentRenterPoints() {
-        int frequentRenterPoints = 0;
+        int totalPoints = 0;
         for (Rental rental : rentals) {
-            frequentRenterPoints++;
-            // add bonus for a two day new release rental
-            if ((rental.getMovie().getPriceCode() == Movie.NEW_RELEASE)
+            totalPoints++;
+            if ((rental.getMovie().getPriceCode() == Movie.NEW_RELEASE)   // add one more point for a two day new release rental
                     && rental.getDaysRented() > 1) {
-                frequentRenterPoints++;
+                totalPoints++;
             }
         }
-        return frequentRenterPoints;
+        return totalPoints;
     }
 
     // Original statement method
     public String statement() {
         StringBuilder result = new StringBuilder("Rental Record for " + getName() + "\n");
 
-        // Show figures for each rental
+        // List each rental
         for (Rental rental : rentals) {
             result.append("\t")
                     .append(rental.getMovie().getTitle())
@@ -87,7 +86,7 @@ public class MovieRentalCustomer {
                     .append("\n");
         }
 
-        // Add footer lines
+        // Add footer
         result.append("Amount owed is ")
                 .append(getTotalAmount())
                 .append("\n");
@@ -98,17 +97,17 @@ public class MovieRentalCustomer {
         return result.toString();
     }
 
-    // HTML statement using same calculation methods
+    // Generates an HTML rental statement
     public String htmlStatement() {
         StringBuilder result = new StringBuilder();
 
-        // Header
+        // Add header
         result.append("<h1>Rental Record for <em>")
                 .append(getName())
                 .append("</em></h1>");
         result.append("<table>");
 
-        // Show figures for each rental
+        // List each rental
         for (Rental rental : rentals) {
             result.append("<tr><td>")
                     .append(rental.getMovie().getTitle())
@@ -117,7 +116,7 @@ public class MovieRentalCustomer {
                     .append("</td></tr>");
         }
 
-        // Footer
+        // Add footer
         result.append("</table>");
         result.append("<p>Amount owed is <em>")
                 .append(getTotalAmount())
@@ -130,24 +129,24 @@ public class MovieRentalCustomer {
     }
 
     private double calculateAmount(Rental rental) {
-        double thisAmount = 0;
+        double rentalAmount = 0;
 
         switch (rental.getMovie().getPriceCode()) {
             case Movie.REGULAR:
-                thisAmount += 2;
+                rentalAmount += 2;
                 if (rental.getDaysRented() > 2)
-                    thisAmount += (rental.getDaysRented() - 2) * 1.5;
+                    rentalAmount += (rental.getDaysRented() - 2) * 1.5;
                 break;
             case Movie.NEW_RELEASE:
-                thisAmount += rental.getDaysRented() * 3;
+                rentalAmount += rental.getDaysRented() * 3;
                 break;
             case Movie.CHILDRENS:
-                thisAmount += 1.5;
+                rentalAmount += 1.5;
                 if (rental.getDaysRented() > 3)
-                    thisAmount += (rental.getDaysRented() - 3) * 1.5;
+                    rentalAmount += (rental.getDaysRented() - 3) * 1.5;
                 break;
         }
 
-        return thisAmount;
+        return rentalAmount;
     }
 }
